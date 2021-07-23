@@ -1,4 +1,11 @@
 # Maintainer: Koki Fukuda <ko.fu.dev {a} gmail.com>
+
+# x-ken-all.csv (modified version of KEN_ALL.CSV) is from
+#   https://zipcloud.ibsnet.co.jp/
+#
+# JIGYOSYO.CSV is from
+#   https://www.post.japanpost.jp/zipcode/download.html
+
 pkgname=('mozc' 'ibus-mozc' 'emacs-mozc')
 pkgver='2.26.4437.100'
 pkgrel=1
