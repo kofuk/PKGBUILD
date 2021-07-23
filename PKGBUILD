@@ -11,8 +11,12 @@ source=(
     'git+https://github.com/google/mozc.git#commit=d08f2a8d96af3ff80aac0e5641d9d20281084038'
     'ibus-include-dir.patch'
     'qt-path.patch'
+    'x-ken-all.csv'
+    'JIGYOSYO.CSV'
 )
 sha256sums=(
+    'SKIP'
+    'SKIP'
     'SKIP'
     'SKIP'
     'SKIP'
@@ -30,6 +34,12 @@ prepare() {
 
     patch -p1 -i "$srcdir/ibus-include-dir.patch"
     patch -p1 -i "$srcdir/qt-path.patch"
+
+    cd "${srcdir}"
+
+    PYTHONPATH="${PYTHONPATH}:${srcdir}/mozc/src" python "mozc/src/dictionary/gen_zip_code_seed.py" \
+              --zip_code=x-ken-all.csv --jigyosyo=JIGYOSYO.CSV \
+              >> "mozc/src/data/dictionary_oss/dictionary09.txt"
 }
 
 build() {
