@@ -1,0 +1,11 @@
+--- mozc.orig/src/config.bzl	2021-07-23 13:00:22.543750174 +0900
++++ mozc/src/config.bzl	2021-07-23 13:03:45.433758513 +0900
+@@ -37,7 +37,7 @@
+ MACOS_MIN_OS_VER = "10.12"
+ 
+ ## Qt paths
+-QT_BASE_PATH = "/usr/include/x86_64-linux-gnu/qt5"  # For Debian
++QT_BASE_PATH = "/usr/include/qt"
+ QT_BIN_PATH = "/usr/bin/"
+ 
+ ## For macOS
