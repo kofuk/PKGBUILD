@@ -19,9 +19,11 @@ source=(
     'ibus-include-dir.patch'
     'qt-path.patch'
     'emoji-13-0.tsv'
+    'emoji-13-1.tsv'
     'emoji-misc.tsv'
 )
 sha256sums=(
+    'SKIP'
     'SKIP'
     'SKIP'
     'SKIP'
@@ -42,7 +44,8 @@ prepare() {
     patch -p1 -i "$srcdir/ibus-include-dir.patch"
     patch -p1 -i "$srcdir/qt-path.patch"
 
-    cat "${srcdir}/emoji-13-0.tsv" "${srcdir}/emoji-misc.tsv" \
+    cat "${srcdir}/emoji-13-0.tsv" "${srcdir}/emoji-13-1.tsv" \
+        "${srcdir}/emoji-misc.tsv" \
         >>"${srcdir}/mozc/src/data/emoji/emoji_data.tsv"
 }
 
