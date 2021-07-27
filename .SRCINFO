@@ -9,9 +9,11 @@ pkgbase = mozc
 	makedepends = bazel
 	makedepends = git
 	makedepends = qt5-base
-	source = git+https://github.com/google/mozc.git#commit=d08f2a8d96af3ff80aac0e5641d9d20281084038
+	source = mozc::git+https://github.com/google/mozc.git#commit=d08f2a8d96af3ff80aac0e5641d9d20281084038
 	source = ibus-include-dir.patch
 	source = qt-path.patch
+	source = emoji-13-0.tsv
+	sha256sums = SKIP
 	sha256sums = SKIP
 	sha256sums = SKIP
 	sha256sums = SKIP

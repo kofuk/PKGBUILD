@@ -15,11 +15,13 @@ license=('BSD' 'custom')
 groups=('mozc-im')
 makedepends=('bazel' 'git' 'qt5-base')
 source=(
-    'git+https://github.com/google/mozc.git#commit=d08f2a8d96af3ff80aac0e5641d9d20281084038'
+    'mozc::git+https://github.com/google/mozc.git#commit=d08f2a8d96af3ff80aac0e5641d9d20281084038'
     'ibus-include-dir.patch'
     'qt-path.patch'
+    'emoji-13-0.tsv'
 )
 sha256sums=(
+    'SKIP'
     'SKIP'
     'SKIP'
     'SKIP'
@@ -37,6 +39,8 @@ prepare() {
 
     patch -p1 -i "$srcdir/ibus-include-dir.patch"
     patch -p1 -i "$srcdir/qt-path.patch"
+
+    cat "${srcdir}/emoji-13-0.tsv" >>"${srcdir}/mozc/src/data/emoji/emoji_data.tsv"
 }
 
 build() {
