@@ -2,6 +2,7 @@
 pkgname=('mozc' 'ibus-mozc' 'emacs-mozc')
 pkgver='2.26.4437.100'
 pkgrel=1
+# Git commit ID
 _vc_rev='d08f2a8d96af3ff80aac0e5641d9d20281084038'
 arch=('x86_64')
 url='https://github.com/google/mozc'
@@ -38,6 +39,7 @@ prepare() {
     patch -p1 -i "$srcdir/ibus-include-dir.patch"
     patch -p1 -i "$srcdir/qt-path.patch"
 
+    # Add emoji entries (because upstream doesn't support newer emoji)
     cat "${srcdir}/emoji-13-0.tsv" "${srcdir}/emoji-13-1.tsv" \
         "${srcdir}/emoji-misc.tsv" \
         >>"${srcdir}/mozc/src/data/emoji/emoji_data.tsv"
@@ -48,6 +50,7 @@ build() {
 
     bazel build package --config oss_linux -c opt
 
+    # Fill version field for IBus component
     sed -i "s/0.0.0.0/${pkgver}/" "${srcdir}/mozc/src/bazel-bin/unix/ibus/mozc.xml"
 }
 
@@ -56,6 +59,7 @@ build() {
 #     bazel test base:util_test --config oss_linux -c dbg
 # }
 
+# Mozc base package
 package_mozc() {
     pkgdesc='A Japanese Input Method Editor designed for multi-platform'
     depends=('qt5-base')
@@ -69,6 +73,7 @@ package_mozc() {
     install -m 644 LICENSE src/data/installer/*.html "${pkgdir}/usr/share/licenses/mozc/"
 }
 
+# IBus component package
 package_ibus-mozc() {
     pkgdesc='IBus engine for Mozc'
 
@@ -92,6 +97,7 @@ package_ibus-mozc() {
     install    -m 644 'data/images/unix/ui-alpha_full.png'    "${pkgdir}/usr/share/ibus-mozc/alpha_full.png"
 }
 
+# Emacs helper module package
 package_emacs-mozc() {
     pkgdesc='Mozc for Emacs'
 
