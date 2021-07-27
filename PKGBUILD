@@ -9,13 +9,14 @@
 pkgname=('mozc' 'ibus-mozc' 'emacs-mozc')
 pkgver='2.26.4437.100'
 pkgrel=1
+_vc_rev='d08f2a8d96af3ff80aac0e5641d9d20281084038'
 arch=('x86_64')
 url='https://github.com/google/mozc'
 license=('BSD' 'custom')
 groups=('mozc-im')
 makedepends=('bazel' 'git' 'qt5-base')
 source=(
-    'mozc::git+https://github.com/google/mozc.git#commit=d08f2a8d96af3ff80aac0e5641d9d20281084038'
+    "mozc::git+https://github.com/google/mozc.git#commit=${_vc_rev}"
     'ibus-include-dir.patch'
     'qt-path.patch'
     'emoji-13-0.tsv'
