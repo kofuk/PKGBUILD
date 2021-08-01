@@ -1,7 +1,7 @@
 # Maintainer: Koki Fukuda <ko.fu.dev {a} gmail.com>
 pkgname=('mozc' 'ibus-mozc' 'emacs-mozc')
 pkgver=2.26.4451.100
-pkgrel=1
+pkgrel=2
 # Git commit ID
 _vc_rev='7e2420b6307ef2eb147fdf9b620cb8f1ebea0588'
 arch=('x86_64')
@@ -86,15 +86,15 @@ package_ibus-mozc() {
 
     cd "${srcdir}/mozc/src"
     install -D -m 644 'data/images/unix/ime_product_icon_opensource-32.png' "${pkgdir}/usr/share/ibus-mozc/product_icon.png"
-    install    -m 644 'data/images/unix/ui-tool.png'          "${pkgdir}/usr/share/ibus-mozc/tool.png"
-    install    -m 644 'data/images/unix/ui-properties.png'    "${pkgdir}/usr/share/ibus-mozc/properties.png"
-    install    -m 644 'data/images/unix/ui-dictionary.png'    "${pkgdir}/usr/share/ibus-mozc/dictionary.png"
-    install    -m 644 'data/images/unix/ui-direct.png'        "${pkgdir}/usr/share/ibus-mozc/direct.png"
-    install    -m 644 'data/images/unix/ui-hiragana.png'      "${pkgdir}/usr/share/ibus-mozc/hiragana.png"
-    install    -m 644 'data/images/unix/ui-katakana_half.png' "${pkgdir}/usr/share/ibus-mozc/katakana_half.png"
-    install    -m 644 'data/images/unix/ui-katakana_full.png' "${pkgdir}/usr/share/ibus-mozc/katakana_full.png"
-    install    -m 644 'data/images/unix/ui-alpha_half.png'    "${pkgdir}/usr/share/ibus-mozc/alpha_half.png"
-    install    -m 644 'data/images/unix/ui-alpha_full.png'    "${pkgdir}/usr/share/ibus-mozc/alpha_full.png"
+    install    -m 644 'data/images/unix/ui-tool.png'             "${pkgdir}/usr/share/ibus-mozc/tool.png"
+    install    -m 644 'data/images/unix/ui-properties.png'       "${pkgdir}/usr/share/ibus-mozc/properties.png"
+    install    -m 644 'data/images/unix/ui-dictionary.png'       "${pkgdir}/usr/share/ibus-mozc/dictionary.png"
+    install    -m 644 'data/images/unix/48x48/direct.png'        "${pkgdir}/usr/share/ibus-mozc/direct.png"
+    install    -m 644 'data/images/unix/48x48/hiragana.png'      "${pkgdir}/usr/share/ibus-mozc/hiragana.png"
+    install    -m 644 'data/images/unix/48x48/katakana_half.png' "${pkgdir}/usr/share/ibus-mozc/katakana_half.png"
+    install    -m 644 'data/images/unix/48x48/katakana_full.png' "${pkgdir}/usr/share/ibus-mozc/katakana_full.png"
+    install    -m 644 'data/images/unix/48x48/alpha_half.png'    "${pkgdir}/usr/share/ibus-mozc/alpha_half.png"
+    install    -m 644 'data/images/unix/48x48/alpha_full.png'    "${pkgdir}/usr/share/ibus-mozc/alpha_full.png"
 }
 
 # Emacs helper module package
