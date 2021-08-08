@@ -3,7 +3,7 @@ pkgname=('mozc' 'ibus-mozc' 'emacs-mozc')
 pkgver=2.26.4451.100
 pkgrel=2
 # Git commit ID
-_vc_rev='7e2420b6307ef2eb147fdf9b620cb8f1ebea0588'
+_vc_rev='399c91aa05934002a65b2cf40e1c578cba51fc33'
 arch=('x86_64')
 url='https://github.com/google/mozc'
 license=('BSD' 'custom')
