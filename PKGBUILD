@@ -1,9 +1,9 @@
 # Maintainer: Koki Fukuda <ko.fu.dev {a} gmail.com>
 pkgname=('mozc' 'ibus-mozc' 'emacs-mozc')
-pkgver=2.26.4493.100
+pkgver=2.26.4514.100
 pkgrel=1
 # Git commit ID
-_vc_rev='1bed73e1090f01f8f93253b302c6284bf7dc89a0'
+_vc_rev='7a2decc75a4b9b1e08ed994c0e675b21e2b0f81a'
 arch=('x86_64')
 url='https://github.com/google/mozc'
 license=('BSD' 'custom')
