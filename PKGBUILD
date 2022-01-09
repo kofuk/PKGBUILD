@@ -1,9 +1,9 @@
 # Maintainer: Koki Fukuda <ko.fu.dev {a} gmail.com>
 pkgname=('mozc' 'ibus-mozc' 'emacs-mozc')
-pkgver=2.26.4596.100
+pkgver=2.26.4610.100
 pkgrel=1
 # Git commit ID
-_vc_rev='3735608fd00111b767a121d9c78999e3c41aab2f'
+_vc_rev='c914d1dfe8b4193731b22da7ee3f53612a94269d'
 arch=('x86_64')
 url='https://github.com/google/mozc'
 license=('BSD' 'custom')
@@ -27,8 +27,8 @@ sha256sums=(
 )
 
 pkgver() {
-    grep -E '^(MAJOR|MINOR|BUILD|REVISION) ' "${srcdir}/mozc/src/data/version/mozc_version_template.bzl" |
-        sed -E 's/[A-Z]+ *= *([0-9]+)/\1./g' | tr -d '\n' | sed 's/.$//'
+    grep -E '^(MAJOR|MINOR|BUILD_OSS|REVISION) ' "${srcdir}/mozc/src/data/version/mozc_version_template.bzl" |
+        sed -E 's/[A-Z_]+ *= *([0-9]+)/\1./g' | tr -d '\n' | sed 's/.$//'
 }
 
 prepare() {
