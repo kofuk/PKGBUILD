@@ -15,9 +15,11 @@ source=(
     'qt-path.patch'
     'emoji-13-0.tsv'
     'emoji-13-1.tsv'
+    'emoji-14-0.tsv'
     'emoji-misc.tsv'
 )
 sha256sums=(
+    'SKIP'
     'SKIP'
     'SKIP'
     'SKIP'
@@ -41,7 +43,7 @@ prepare() {
 
     # Add emoji entries (because upstream doesn't support newer emoji)
     cat "${srcdir}/emoji-13-0.tsv" "${srcdir}/emoji-13-1.tsv" \
-        "${srcdir}/emoji-misc.tsv" \
+        "${srcdir}/emoji-14-0.tsv" "${srcdir}/emoji-misc.tsv" \
         >>"${srcdir}/mozc/src/data/emoji/emoji_data.tsv"
 }
 
