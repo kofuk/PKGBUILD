@@ -11,16 +11,12 @@ groups=('mozc-im')
 makedepends=('bazel' 'git' 'qt5-base')
 source=(
     "mozc::git+https://github.com/google/mozc.git#commit=${_vc_rev}"
-    'ibus-include-dir.patch'
-    'qt-path.patch'
     'emoji-13-0.tsv'
     'emoji-13-1.tsv'
     'emoji-14-0.tsv'
     'emoji-misc.tsv'
 )
 sha256sums=(
-    'SKIP'
-    'SKIP'
     'SKIP'
     'SKIP'
     'SKIP'
@@ -38,10 +34,13 @@ prepare() {
 
     git submodule update --init --recursive
 
-    patch -p1 -i "$srcdir/ibus-include-dir.patch"
-    patch -p1 -i "$srcdir/qt-path.patch"
-
+    # Remove Android deps
     sed -Ei 's/^android_/#&/g' "${srcdir}/mozc/src/WORKSPACE.bazel"
+
+    # Fix GLib path
+    sed -Ei 's@lib/x86_64-linux-gnu/glib-2.0@lib/glib-2.0@g' "${srcdir}/mozc/src/BUILD.ibus.bazel"
+    # Fix Qt path
+    sed -Ei 's@/usr/include/x86_64-linux-gnu/qt5@/usr/include/qt@g' "${srcdir}/mozc/src/config.bzl"
 
     # Add emoji entries (because upstream doesn't support newer emoji)
     cat "${srcdir}/emoji-13-0.tsv" "${srcdir}/emoji-13-1.tsv" \
