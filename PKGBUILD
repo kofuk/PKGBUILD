@@ -1,9 +1,9 @@
 # Maintainer: Koki Fukuda <ko.fu.dev {a} gmail.com>
 pkgname=('mozc' 'ibus-mozc' 'emacs-mozc')
-pkgver=2.26.4610.100
+pkgver=2.26.4624.100
 pkgrel=1
 # Git commit ID
-_vc_rev='c914d1dfe8b4193731b22da7ee3f53612a94269d'
+_vc_rev='56ad8ab0366af684c5b66c7acbd63d4f72aae912'
 arch=('x86_64')
 url='https://github.com/google/mozc'
 license=('BSD' 'custom')
@@ -40,6 +40,8 @@ prepare() {
 
     patch -p1 -i "$srcdir/ibus-include-dir.patch"
     patch -p1 -i "$srcdir/qt-path.patch"
+
+    sed -Ei 's/^android_/#&/g' "${srcdir}/mozc/src/WORKSPACE.bazel"
 
     # Add emoji entries (because upstream doesn't support newer emoji)
     cat "${srcdir}/emoji-13-0.tsv" "${srcdir}/emoji-13-1.tsv" \
