@@ -3,6 +3,8 @@ _build_ibus_mozc=yes
 _build_emacs_mozc=yes
 _build_mozc_tool=yes
 
+_build_qt_renderer=auto
+
 pkgname=('mozc')
 pkgver=2.26.4695.100
 pkgrel=1
@@ -27,6 +29,15 @@ sha256sums=(
     'SKIP'
     'SKIP'
 )
+
+if [ "${_build_qt_renderer}" = 'auto' ]; then
+    if [ "${_build_ibus_mozc}" = 'yes' ]; then
+        _build_qt_renderer=no
+    else
+        _build_qt_renderer=yes
+        makedepends+=('qt5-base')
+    fi
+fi
 
 if [ "${_build_ibus_mozc}" = 'yes' ]; then
     pkgname+=('ibus-mozc')
@@ -74,7 +85,10 @@ build() {
     for _pkg in "${pkgname[@]}"; do
         case "${_pkg}" in
             mozc)
-                _targets+=('//renderer:mozc_renderer' '//server:mozc_server')
+                _targets+=('//server:mozc_server')
+                if [ "${_build_qt_renderer}" ]; then
+                    _targets+=('//renderer:mozc_renderer')
+                fi
                 ;;
             ibus-mozc)
                 _targets+=('//unix/ibus:ibus_mozc' '//unix:icons')
@@ -112,9 +126,13 @@ build() {
 # Mozc base package
 package_mozc() {
     pkgdesc='A Japanese Input Method Editor designed for multi-platform'
+    [ "${_build_qt_renderer}" = 'yes' ] && \
+        depends=('qt5-base')
 
     cd "${srcdir}/mozc/src/bazel-bin"
     install -D -m 755 'server/mozc_server' "${pkgdir}/usr/lib/mozc/mozc_server"
+    [ "${_build_qt_renderer}" = 'yes' ] && \
+        install -D -m 755 'renderer/mozc_renderer' "${pkgdir}/usr/lib/mozc/mozc_renderer"
 
     install -d "${pkgdir}/usr/share/licenses/mozc/"
     cd "${srcdir}/mozc"
@@ -130,7 +148,6 @@ package_ibus-mozc() {
     cd "${srcdir}/mozc/src/bazel-bin"
     install -D -m 755 'unix/ibus/ibus_mozc' "${pkgdir}/usr/lib/ibus-mozc/ibus-engine-mozc"
     install -D -m 644 'unix/ibus/mozc.xml' "${pkgdir}/usr/share/ibus/component/mozc.xml"
-    install -D -m 755 'renderer/mozc_renderer' "${pkgdir}/usr/lib/mozc/mozc_renderer"
 
     cd "${srcdir}/mozc/src"
     install -D -m 644 'data/images/unix/ime_product_icon_opensource-32.png' "${pkgdir}/usr/share/ibus-mozc/product_icon.png"
