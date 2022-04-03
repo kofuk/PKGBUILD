@@ -4,10 +4,10 @@ _build_emacs_mozc=yes
 _build_mozc_tool=yes
 
 pkgname=('mozc')
-pkgver=2.26.4680.100
+pkgver=2.26.4695.100
 pkgrel=1
 # Git commit ID
-_vc_rev='1b950579e8a422ef3aaaa1e183db330a448f18e5'
+_vc_rev='120fce6efa66e7bfa8e725040c4e3b6b0de192b7'
 arch=('x86_64')
 url='https://github.com/google/mozc'
 license=('BSD' 'custom')
