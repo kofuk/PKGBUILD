@@ -1,5 +1,9 @@
 # Maintainer: Koki Fukuda <ko.fu.dev {a} gmail.com>
-pkgname=('mozc' 'ibus-mozc' 'emacs-mozc')
+_build_ibus_mozc=yes
+_build_emacs_mozc=yes
+_build_mozc_tool=yes
+
+pkgname=('mozc')
 pkgver=2.26.4680.100
 pkgrel=1
 # Git commit ID
@@ -8,7 +12,7 @@ arch=('x86_64')
 url='https://github.com/google/mozc'
 license=('BSD' 'custom')
 groups=('mozc-im')
-makedepends=('bazel' 'git' 'qt5-base')
+makedepends=('bazel' 'git')
 source=(
     "mozc::git+https://github.com/google/mozc.git#commit=${_vc_rev}"
     'emoji-13-0.tsv'
@@ -23,6 +27,20 @@ sha256sums=(
     'SKIP'
     'SKIP'
 )
+
+if [ "${_build_ibus_mozc}" = 'yes' ]; then
+    pkgname+=('ibus-mozc')
+    makedepends+=('ibus>=1.4.1')
+fi
+
+if [ "${_build_emacs_mozc}" = 'yes' ]; then
+    pkgname+=('emacs-mozc')
+fi
+
+if [ "${_build_mozc_tool}" = 'yes' ]; then
+    pkgname+=('mozc-tool')
+    makedepends+=('qt5-base')
+fi
 
 pkgver() {
     grep -E '^(MAJOR|MINOR|BUILD_OSS|REVISION) ' "${srcdir}/mozc/src/data/version/mozc_version_template.bzl" |
@@ -51,25 +69,40 @@ prepare() {
 build() {
     cd "${srcdir}/mozc/src"
 
-    bazel build package --config oss_linux -c opt
+    _targets=()
 
-    # Fill version field for IBus component
-    sed -i "s/0.0.0.0/${pkgver}/" "${srcdir}/mozc/src/bazel-bin/unix/ibus/mozc.xml"
+    for _pkg in "${pkgname[@]}"; do
+        case "${_pkg}" in
+            mozc)
+                _targets+=('//renderer:mozc_renderer' '//server:mozc_server')
+                ;;
+            ibus-mozc)
+                _targets+=('//unix/ibus:ibus_mozc' '//unix:icons')
+                ;;
+            mozc-tool)
+                _targets+=('//gui/tool:mozc_tool')
+                ;;
+            emacs-mozc)
+                _targets+=('//unix/emacs:mozc_emacs_helper')
+                ;;
+        esac
+    done
+
+    echo "Building following targets: ${_targets[*]}"
+    bazel build "${_targets[@]}" --config oss_linux -c opt
+
+    if [ -e "${srcdir}/mozc/src/bazel-bin/unix/ibus/mozc.xml" ]; then
+        # Fill version field for IBus component
+        sed -i "s/0.0.0.0/${pkgver}/" "${srcdir}/mozc/src/bazel-bin/unix/ibus/mozc.xml"
+    fi
 }
-
-# check() {
-#     cd "${srcdir}/${pkgname}/src"
-#     bazel test base:util_test --config oss_linux -c dbg
-# }
 
 # Mozc base package
 package_mozc() {
     pkgdesc='A Japanese Input Method Editor designed for multi-platform'
-    depends=('qt5-base')
 
     cd "${srcdir}/mozc/src/bazel-bin"
     install -D -m 755 'server/mozc_server' "${pkgdir}/usr/lib/mozc/mozc_server"
-    install    -m 755 'gui/tool/mozc_tool' "${pkgdir}/usr/lib/mozc/mozc_tool"
 
     install -d "${pkgdir}/usr/share/licenses/mozc/"
     cd "${srcdir}/mozc"
@@ -89,15 +122,23 @@ package_ibus-mozc() {
 
     cd "${srcdir}/mozc/src"
     install -D -m 644 'data/images/unix/ime_product_icon_opensource-32.png' "${pkgdir}/usr/share/ibus-mozc/product_icon.png"
-    install    -m 644 'data/images/unix/ui-tool.png'             "${pkgdir}/usr/share/ibus-mozc/tool.png"
-    install    -m 644 'data/images/unix/ui-properties.png'       "${pkgdir}/usr/share/ibus-mozc/properties.png"
-    install    -m 644 'data/images/unix/ui-dictionary.png'       "${pkgdir}/usr/share/ibus-mozc/dictionary.png"
-    install    -m 644 'data/images/unix/48x48/direct.png'        "${pkgdir}/usr/share/ibus-mozc/direct.png"
-    install    -m 644 'data/images/unix/48x48/hiragana.png'      "${pkgdir}/usr/share/ibus-mozc/hiragana.png"
-    install    -m 644 'data/images/unix/48x48/katakana_half.png' "${pkgdir}/usr/share/ibus-mozc/katakana_half.png"
-    install    -m 644 'data/images/unix/48x48/katakana_full.png' "${pkgdir}/usr/share/ibus-mozc/katakana_full.png"
-    install    -m 644 'data/images/unix/48x48/alpha_half.png'    "${pkgdir}/usr/share/ibus-mozc/alpha_half.png"
-    install    -m 644 'data/images/unix/48x48/alpha_full.png'    "${pkgdir}/usr/share/ibus-mozc/alpha_full.png"
+    install -D -m 644 'data/images/unix/ui-tool.png'             "${pkgdir}/usr/share/ibus-mozc/tool.png"
+    install -D -m 644 'data/images/unix/ui-properties.png'       "${pkgdir}/usr/share/ibus-mozc/properties.png"
+    install -D -m 644 'data/images/unix/ui-dictionary.png'       "${pkgdir}/usr/share/ibus-mozc/dictionary.png"
+    install -D -m 644 'data/images/unix/48x48/direct.png'        "${pkgdir}/usr/share/ibus-mozc/direct.png"
+    install -D -m 644 'data/images/unix/48x48/hiragana.png'      "${pkgdir}/usr/share/ibus-mozc/hiragana.png"
+    install -D -m 644 'data/images/unix/48x48/katakana_half.png' "${pkgdir}/usr/share/ibus-mozc/katakana_half.png"
+    install -D -m 644 'data/images/unix/48x48/katakana_full.png' "${pkgdir}/usr/share/ibus-mozc/katakana_full.png"
+    install -D -m 644 'data/images/unix/48x48/alpha_half.png'    "${pkgdir}/usr/share/ibus-mozc/alpha_half.png"
+    install -D -m 644 'data/images/unix/48x48/alpha_full.png'    "${pkgdir}/usr/share/ibus-mozc/alpha_full.png"
+}
+
+package_mozc-tool() {
+    pkgdesc='A Japanese Input Method Editor designed for multi-platform (Settings GUI)'
+    depends=("mozc=${pkgver}" 'qt5-base')
+
+    cd "${srcdir}/mozc/src/bazel-bin"
+    install -D -m 755 'gui/tool/mozc_tool' "${pkgdir}/usr/lib/mozc/mozc_tool"
 }
 
 # Emacs helper module package
@@ -109,7 +150,5 @@ package_emacs-mozc() {
 
     cd "${srcdir}/mozc/src/bazel-bin"
     install -D -m 755 'unix/emacs/mozc_emacs_helper' "${pkgdir}/usr/bin/mozc_emacs_helper"
-    install -d "${pkgdir}/usr/share/emacs/site-lisp/emacs-mozc/"
-
-    install -m 644 "${srcdir}/mozc/src/unix/emacs/mozc.el" "${pkgdir}/usr/share/emacs/site-lisp/emacs-mozc"
+    install -D -m 644 "${srcdir}/mozc/src/unix/emacs/mozc.el" "${pkgdir}/usr/share/emacs/site-lisp/emacs-mozc"
 }
