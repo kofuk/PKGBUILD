@@ -12,7 +12,7 @@ arch=('x86_64')
 url='https://github.com/google/mozc'
 license=('BSD' 'custom')
 groups=('mozc-im')
-makedepends=('bazel' 'git')
+makedepends=('bazel' 'git' 'java-environment=11')
 source=(
     "mozc::git+https://github.com/google/mozc.git#commit=${_vc_rev}"
     'emoji-13-0.tsv'
@@ -88,12 +88,24 @@ build() {
         esac
     done
 
+    _orig_java="$(archlinux-java get)"
+    if [ "${_orig_java}" != 'java-11-openjdk' ]; then
+        # This is not polite, but it's needed to execute bazel.
+        echo "Switching Java environment to java-11-openjdk (from ${_orig_java})..."
+        sudo archlinux-java set java-11-openjdk
+    fi
+
     echo "Building following targets: ${_targets[*]}"
     bazel build "${_targets[@]}" --config oss_linux -c opt
 
     if [ -e "${srcdir}/mozc/src/bazel-bin/unix/ibus/mozc.xml" ]; then
         # Fill version field for IBus component
         sed -i "s/0.0.0.0/${pkgver}/" "${srcdir}/mozc/src/bazel-bin/unix/ibus/mozc.xml"
+    fi
+
+    if [ "${_orig_java}" != "$(archlinux-java get)" ]; then
+        echo 'Reverting Java environment...'
+        sudo archlinux-java set "${_orig_java}"
     fi
 }
 
