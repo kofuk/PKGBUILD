@@ -86,7 +86,7 @@ build() {
         case "${_pkg}" in
             mozc)
                 _targets+=('//server:mozc_server')
-                if [ "${_build_qt_renderer}" ]; then
+                if [ "${_build_qt_renderer}" = 'yes' ]; then
                     _targets+=('//renderer:mozc_renderer')
                 fi
                 ;;
