@@ -6,10 +6,10 @@ _build_mozc_tool=yes
 _build_qt_renderer=auto
 
 pkgname=('mozc')
-pkgver=2.28.4750.100
+pkgver=2.28.4780.100
 pkgrel=1
 # Git commit ID
-_vc_rev='6d223e2c7f55f22cb71b55a93129a4c721c2965b'
+_vc_rev='9da52ff96e9ecc33b38612f17a6e9abb60c81bf0'
 arch=('x86_64')
 url='https://github.com/google/mozc'
 license=('BSD' 'custom')
@@ -63,11 +63,6 @@ prepare() {
 
     git submodule update --init --recursive
 
-    # Remove Android deps
-    sed -Ei 's/^android_/#&/g' "${srcdir}/mozc/src/WORKSPACE.bazel"
-
-    # Fix GLib path
-    sed -Ei 's@lib/x86_64-linux-gnu/glib-2.0@lib/glib-2.0@g' "${srcdir}/mozc/src/BUILD.ibus.bazel"
     # Fix Qt path
     sed -Ei 's@/usr/include/x86_64-linux-gnu/qt5@/usr/include/qt@g' "${srcdir}/mozc/src/config.bzl"
 
