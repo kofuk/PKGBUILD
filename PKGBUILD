@@ -6,10 +6,10 @@ _build_mozc_tool=yes
 _build_qt_renderer=auto
 
 pkgname=('mozc')
-pkgver=2.28.4800.100
-pkgrel=2
+pkgver=2.28.4830.100
+pkgrel=1
 # Git commit ID
-_vc_rev='72f91f31936afa9b8f0bece819bb767915a7f14d'
+_vc_rev='490cffc7fb08023d07758104bdad1f23e6da2dff'
 arch=('x86_64')
 url='https://github.com/google/mozc'
 license=('BSD' 'custom')
@@ -17,15 +17,9 @@ groups=('mozc-im')
 makedepends=('bazel' 'git' 'java-environment=11')
 source=(
     "mozc::git+https://github.com/google/mozc.git#commit=${_vc_rev}"
-    'emoji-13-0.tsv'
-    'emoji-13-1.tsv'
-    'emoji-14-0.tsv'
     'emoji-misc.tsv'
 )
 sha256sums=(
-    'SKIP'
-    'SKIP'
-    'SKIP'
     'SKIP'
     'SKIP'
 )
@@ -67,8 +61,7 @@ prepare() {
     sed -Ei 's@/usr/include/x86_64-linux-gnu/qt5@/usr/include/qt@g' "${srcdir}/mozc/src/config.bzl"
 
     # Add emoji entries (because upstream doesn't support newer emoji)
-    cat "${srcdir}/emoji-13-0.tsv" "${srcdir}/emoji-13-1.tsv" \
-        "${srcdir}/emoji-14-0.tsv" "${srcdir}/emoji-misc.tsv" \
+    cat "${srcdir}/emoji-misc.tsv" \
         >>"${srcdir}/mozc/src/data/emoji/emoji_data.tsv"
 }
 
