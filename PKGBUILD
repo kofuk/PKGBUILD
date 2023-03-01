@@ -6,10 +6,10 @@ _build_mozc_tool=yes
 _build_qt_renderer=auto
 
 pkgname=('mozc')
-pkgver=2.28.5000.100
+pkgver=2.28.5017.100
 pkgrel=1
 # Git commit ID
-_vc_rev='9c2e042e9d92958dc11c47b369af2e9485550c27'
+_vc_rev='d03953ea50691de449345c3eff5ea3f909032dc5'
 arch=('x86_64')
 url='https://github.com/google/mozc'
 license=('BSD' 'custom')
