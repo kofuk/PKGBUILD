@@ -1,0 +1,29 @@
+# Maintainer: Koki Fukuda <ko.fu.dev {a} gmail.com>
+pkgname='alp'
+pkgver=1.0.12
+pkgrel=1
+pkgdesc="Access log profiler"
+arch=('x86_64' 'i686')
+url='https://github.com/tkuchiki/alp'
+license=('MIT')
+makedepends=('go')
+options=('!strip' '!emptydirs')
+source=(
+    'https://github.com/tkuchiki/alp/archive/refs/tags/v1.0.12.tar.gz'
+)
+sha256sums=(
+    '68a0066381673c8857adbf55b18fc472f861e39f33571ad130bde59698f2d043'
+)
+
+build() {
+  cd "${pkgname}-${pkgver}"
+
+  make build
+}
+
+package() {
+  cd "${pkgname}-${pkgver}"
+
+  install -Dm755 cli/alp/alp "${pkgdir}/usr/bin/alp"
+  install -Dm644 LICENSE "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}
