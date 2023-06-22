@@ -9,7 +9,7 @@ pkgname=('mozc')
 pkgver=2.29.5135.100
 pkgrel=1
 # Git commit ID
-_vc_rev='bbbc33244777b24c9ed633fe61c1e646ae703740'
+_vc_rev='2e26265b6780381356e226b5923f3112f603eb54'
 arch=('x86_64')
 url='https://github.com/google/mozc'
 license=('BSD' 'custom')
