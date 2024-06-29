@@ -6,7 +6,7 @@ _build_mozc_tool=yes
 _build_qt_renderer=auto
 
 pkgname=('mozc')
-pkgver=2.30.5432.100
+pkgver=2.30.5490.100
 pkgrel=1
 # Git commit ID
 _vc_rev='6ceada3f2d95eccc96b731d0ae2dc59b73323b8a'
@@ -29,7 +29,7 @@ if [ "${_build_qt_renderer}" = 'auto' ]; then
         _build_qt_renderer=no
     else
         _build_qt_renderer=yes
-        makedepends+=('qt5-base')
+        makedepends+=('qt6-base')
     fi
 fi
 
@@ -44,7 +44,7 @@ fi
 
 if [ "${_build_mozc_tool}" = 'yes' ]; then
     pkgname+=('mozc-tool')
-    makedepends+=('qt5-base')
+    makedepends+=('qt6-base')
 fi
 
 pkgver() {
@@ -56,9 +56,6 @@ prepare() {
     cd "${srcdir}/mozc"
 
     git submodule update --init --recursive
-
-    # Fix Qt path
-    sed -Ei 's@/usr/include/x86_64-linux-gnu/qt5@/usr/include/qt@g' "${srcdir}/mozc/src/config.bzl"
 
     # Add emoji entries (because upstream doesn't support newer emoji)
     cat "${srcdir}/emoji-misc.tsv" \
