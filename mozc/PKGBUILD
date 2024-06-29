@@ -92,7 +92,6 @@ build() {
 
     echo "Building following targets: ${_targets[*]}"
     bazel build "${_targets[@]}" --config oss_linux -c opt
-    bazel shutdown
 
     if [ -e "${srcdir}/mozc/src/bazel-bin/unix/ibus/mozc.xml" ]; then
         # Fill version field for IBus component
