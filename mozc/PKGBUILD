@@ -87,6 +87,9 @@ build() {
         esac
     done
 
+    # Avoid warnings in protobuf making whole build fail.
+    sed -i '/-Werror/d' third_party/protobuf/build_defs/cpp_opts.bzl
+
     echo "Building following targets: ${_targets[*]}"
     bazel build "${_targets[@]}" --config oss_linux -c opt
     bazel shutdown
