@@ -1,6 +1,6 @@
 # Maintainer: Koki Fukuda <ko.fu.dev {a} gmail.com>
 pkgname='alp'
-pkgver=1.0.16
+pkgver=1.0.21
 pkgrel=1
 pkgdesc="Access log profiler"
 arch=('x86_64' 'i686')
@@ -12,7 +12,7 @@ source=(
     "https://github.com/tkuchiki/alp/archive/refs/tags/v${pkgver}.tar.gz"
 )
 sha256sums=(
-    '4e90db4ddc623dedf4bb475bc169e28e077cbc838d4c8381164ba76acafed8d2'
+    'cb46bbf1c8a1feace9ea23447509a7b7fad8960e9e73948fcfdf012436c64390'
 )
 
 build() {
