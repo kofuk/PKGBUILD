@@ -6,10 +6,10 @@ _build_mozc_tool=yes
 _build_qt_renderer=auto
 
 pkgname=('mozc')
-pkgver=2.31.5851.100
+pkgver=3.33.6133.100
 pkgrel=1
 # Git commit ID
-_vc_rev='a264946c14669b72d426f81fe32f4f1756f8a8ff'
+_vc_rev='9df9774c09d7ef6a4c93c1a3e0ef41da1490e767'
 arch=('x86_64')
 url='https://github.com/google/mozc'
 license=('BSD' 'custom')
@@ -48,7 +48,7 @@ if [ "${_build_mozc_tool}" = 'yes' ]; then
 fi
 
 pkgver() {
-    grep -E '^(MAJOR|MINOR|BUILD_OSS|REVISION) ' "${srcdir}/mozc/src/data/version/mozc_version_template.bzl" |
+    grep -E '^(MAJOR|MINOR|BUILD_OSS|REVISION) ' "${srcdir}/mozc/src/version.bzl" |
         sed -E 's/[A-Z_]+ *= *([0-9]+)/\1./g' | tr -d '\n' | sed 's/.$//'
 }
 
